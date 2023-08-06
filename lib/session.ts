@@ -1,8 +1,7 @@
 import { getServerSession } from 'next-auth/next'
 import { NextAuthOptions, User } from 'next-auth'
 
-// @ts-ignore
-import { AdapterUser } from 'next-auth/adapters'
+import { AdapterUser } from '../node_modules/next-auth/src/adapters'
 
 import GoogleProvider from 'next-auth/providers/google'
 import jsonwebtoken from 'jsonwebtoken'
