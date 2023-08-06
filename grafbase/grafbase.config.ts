@@ -1,9 +1,9 @@
-import { g, auth, config } from '@grafbase/sdk'
+import { g, config, auth } from '@grafbase/sdk'
 
 // @ts-ignore
 const User = g
   .model('User', {
-    name: g.string().length({ min: 2, max: 20 }),
+    name: g.string().length({ min: 2, max: 100 }),
     email: g.string().unique(),
     avatarUrl: g.url(),
     description: g.string().length({ min: 2, max: 1000 }).optional(),
@@ -21,8 +21,8 @@ const User = g
 // @ts-ignore
 const Project = g
   .model('Project', {
-    title: g.string().length({ min: 3, max: 300 }),
-    description: g.string().optional(),
+    title: g.string().length({ min: 3 }),
+    description: g.string(),
     image: g.url(),
     liveSiteUrl: g.url(),
     githubUrl: g.url(),
@@ -30,7 +30,8 @@ const Project = g
     createdBy: g.relation(() => User)
   })
   .auth((rules) => {
-    rules.public().read(), rules.private().create().delete().update()
+    rules.public().read()
+    rules.private().create().delete().update()
   })
 
 const jwt = auth.JWT({

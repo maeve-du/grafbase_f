@@ -26,14 +26,9 @@ const ProfilePage = ({ user }: Props) => (
         </p>
 
         <div className="flex mt-8 gap-5 w-full flex-wrap">
-          <Button
-            title="Follow"
-            leftIcon="/plus-round.svg"
-            bgColor="bg-light-white-400 !w-max"
-            textColor="text-black-100"
-          />
+          <Button title="Follow" bgColor="bg-light-white-400 !w-max" textColor="text-black-100" />
           <Link href={`mailto:${user?.email}`}>
-            <Button title="Hire Me" leftIcon="/email.svg" />
+            <Button title="Hire Me" />
           </Link>
         </div>
       </div>

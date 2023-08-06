@@ -1,14 +1,11 @@
 import { getServerSession } from 'next-auth/next'
 import { NextAuthOptions, User } from 'next-auth'
-
-import { AdapterUser } from '../node_modules/next-auth/src/adapters'
-
+import { AdapterUser } from 'next-auth/adapters'
 import GoogleProvider from 'next-auth/providers/google'
 import jsonwebtoken from 'jsonwebtoken'
 import { JWT } from 'next-auth/jwt'
 import { SessionInterface, UserProfile } from '@/common.types'
 import { createUser, getUser } from './actions'
-import { decode } from 'punycode'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -30,14 +27,14 @@ export const authOptions: NextAuthOptions = {
       return encodedToken
     },
     decode: async ({ secret, token }) => {
-      const decodedToken = jsonwebtoken.verify(token!, secret) as JWT
+      const decodedToken = jsonwebtoken.verify(token!, secret)
 
-      return decodedToken
+      return decodedToken as JWT
     }
   },
   theme: {
     colorScheme: 'light',
-    logo: '/logo.png'
+    logo: '/logo.svg'
   },
   callbacks: {
     async session({ session }) {
@@ -46,25 +43,23 @@ export const authOptions: NextAuthOptions = {
       try {
         const data = (await getUser(email)) as { user?: UserProfile }
 
-        const newsession = {
+        const newSession = {
           ...session,
           user: {
             ...session.user,
             ...data?.user
           }
         }
-
-        return newsession
+        return newSession
       } catch (error) {
         console.log('Error retrieving user data', error)
+        return session
       }
-
-      return session
     },
     async signIn({ user }: { user: AdapterUser | User }) {
       try {
         // get the user if they exit
-        const userExists = (await getUser(user?.email as string)) as { user: UserProfile }
+        const userExists = (await getUser(user?.email as string)) as { user?: UserProfile }
         // if they don't exist create them
 
         if (!userExists.user) {
@@ -73,8 +68,8 @@ export const authOptions: NextAuthOptions = {
         }
 
         return true
-      } catch (error) {
-        console.log(error)
+      } catch (error: any) {
+        console.log('Error checking if user exists: ', error.message)
 
         return false
       }

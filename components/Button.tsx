@@ -12,7 +12,16 @@ interface Props {
   textColor?: string
 }
 
-const Button = ({ title, lefeIcon, rightIcon, handleClick, isSubmitting, type, bgColor, textColor }: Props) => {
+const Button = ({
+  title,
+  lefeIcon,
+  rightIcon,
+  handleClick,
+  isSubmitting,
+  type,
+  bgColor,
+  textColor
+}: Props) => {
   return (
     <button
       type={type || 'button'}
@@ -20,10 +29,11 @@ const Button = ({ title, lefeIcon, rightIcon, handleClick, isSubmitting, type, b
       className={`flexCenter gap-2 px-6  py-3 ${textColor || 'text-white'}  ${
         isSubmitting ? 'bg-black/50' : bgColor ? bgColor : 'bg-primary-purple'
       } rounded-xl text-sm font-medium max-md:w-full`}
-      onClick={handleClick}>
-      {lefeIcon && <Image src={lefeIcon} width={14} height={14} alt='left' />}
+      onClick={handleClick}
+    >
+      {lefeIcon && <Image src={lefeIcon} width={14} height={14} alt="left" />}
       {title}
-      {rightIcon && <Image src={rightIcon} width={14} height={14} alt='right' />}
+      {rightIcon && <Image src={rightIcon} width={14} height={14} alt="right" />}
     </button>
   )
 }

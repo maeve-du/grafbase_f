@@ -14,6 +14,7 @@ lerna-debug.log*
 /.pnp
 .pnp.js
 .yarn/*
+.grafbase/*
 
 # testing
 /coverage
